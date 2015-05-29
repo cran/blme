@@ -6,7 +6,7 @@ printBmerenv <- function(x, digits = max(3, getOption("digits") - 3),
 			ranef.comp = c("Variance", "Std.Dev."), ...)
 {
   printPriors(x$priors, x$ngrps, digits)
-  cat("Prior dev  : ", round(x$devcomp$cmp[["penalty"]], digits), "\n\n", sep = "");
+  cat("Prior dev  : ", round(x$devcomp$cmp[["penalty"]], digits), "\n\n", sep = "")
   
   printMethod <- getS3method("print", "summary.merMod")
   result <- printMethod(x, digits, correlation, symbolic.cor, signif.stars, ranef.comp, ...)
@@ -19,7 +19,7 @@ print.bmerMod <- function(x, digits = max(3, getOption("digits") - 3),
                           ranef.comp = "Std.Dev.", ...)
 {
   printPriors(x@priors, x@cnms, digits)
-  cat("Prior dev  : ", round(x@devcomp$cmp[["penalty"]], digits), "\n\n", sep = "");
+  cat("Prior dev  : ", round(x@devcomp$cmp[["penalty"]], digits), "\n\n", sep = "")
   
   printMethod <- getS3method("print", "merMod")
   result <- printMethod(x, digits, correlation, symbolic.cor, signif.stars, ranef.comp, ...)
@@ -33,7 +33,7 @@ print.summary.bmerMod <- printBmerenv
 summary.bmerMod <- function(object, ...)
 {
   result <- NextMethod(.Generic, object = object, ...)
-  result$priors <- object@priors;
+  result$priors <- object@priors
   
   structure(result,
             class = c("summary.bmerMod", "summary.merMod"))
@@ -43,9 +43,6 @@ summary.summary.bmerMod <- function(object, varcov = TRUE, ...) {
   getS3method("summary", "summary.merMod")(object, varcov, ...)
 }
 
-
-##' @importFrom stats vcov
-##' @S3method vcov summary.merMod
 vcov.summary.bmerMod <- function(object, correlation = TRUE, ...) {
   getS3method("vcov", "summary.merMod")(object, correlation, ...)
 }
