@@ -1,10 +1,10 @@
 e09fa27bd130c20feae65866a847f007 *ChangeLog
-b2d831fcde3eca89763efb172dc6a37b *DESCRIPTION
-d5c7d081d3710e092fe92ca89d6b141f *NAMESPACE
+b77e11bfcb9d5562f35ca80714594177 *DESCRIPTION
+9b475e43b94f28d4c0b2d64db20f88c9 *NAMESPACE
 0c9008cb11be04f2d73fc012ace594c7 *R/AllClass.R
-1a33ba619dc6760d89967cee8e167292 *R/blmer.R
+c25aa5a3ac937042f20208742adc734e *R/blmer.R
 477164ed17b96e8515f3ae28121bacac *R/control.R
-af19dec2c2a312c87a9aecf1135718f4 *R/devFun.R
+d59b73e50929793455bfb83b716a5307 *R/devFun.R
 584805ab8926c4a46cf914608642e276 *R/dist.R
 a914b08748e50e2989ffba35d181d996 *R/dist_custom.R
 d8abd8c0ff925982860aa55eb7caa1c2 *R/dist_gamma.R
@@ -18,13 +18,13 @@ eff56bea27e3a1fe2ed0b46a97132d54 *R/parameters.R
 e6c1c6fbfe4dfdd7bd4c2f0f18a60306 *R/priorEval.R
 5cc64020ad8fe30617dc9bdfa6320d3f *R/string.R
 d8155ee72667b9d5bb190ed733cca69d *R/util.R
-6e57b28525c216b25d01812ae3bd08fc *README.md
+31d5b4efed69e616fb64883a3526c3f2 *README.md
 11736e486101b008e30da58754f3e81c *ToDo
 5a048275a28cbb9c02819acd3f257eaa *inst/CITATION
 6f7a24a171895cd167d92dce6ee2dc70 *inst/common/checkWarning.R
 cd4c9728d3ce9acbac622559c57e1224 *inst/common/glmmData.R
 5b5b5d726ca3f2139eb91fbeca696d1b *inst/common/lmmData.R
-4cd35d56027a66649537b21928b07d8d *man/blmer.Rd
+d0ca0cb3e2b2f475a28f03f6e5c5150b *man/blmer.Rd
 ac027e4c1b4b18917fc54d6fc4d1acbe *man/bmerDist-class.Rd
 50101bfe271bb70f1c71aa53062eeb33 *man/bmerMod-class.Rd
 ec4ab5f4a812c5d7e62329b2decffce8 *tests/test-all.R
@@ -37,4 +37,4 @@ df20eec483386f2095be88981173c474 *tests/testthat/test-05-covariance_errors.R
 aa12cb69e0e09255ac9c90235b417bbb *tests/testthat/test-07-lmm_fixef.R
 9543fd088363adbcb7ab873696a3489d *tests/testthat/test-08-lmm_covariance.R
 c5dd4ea726fef672b009fab0d7105d71 *tests/testthat/test-09-glmm_priors.R
-0a509f7b47f86b8250d2c7f2a80a658d *tests/testthat/test-10-refit.R
+f37cbc37d580ae1c2c2db8cbd038fa5d *tests/testthat/test-10-refit.R
