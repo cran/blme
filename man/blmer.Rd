@@ -10,14 +10,13 @@
   \code{\link[lme4]{lmer}}.
 }
 \usage{
-blmer(formula, data, REML = TRUE,
+blmer(formula, data = NULL, REML = TRUE,
       control = lmerControl(), start = NULL, verbose = 0L,
       subset, weights, na.action, offset, contrasts = NULL,
       devFunOnly = FALSE, cov.prior = wishart,
       fixef.prior = NULL, resid.prior = NULL, \dots)
-bglmer(formula, data, family = gaussian,
+bglmer(formula, data = NULL, family = gaussian,
        control = glmerControl(), start = NULL, verbose = 0L,
-       maxit = 100L,
        nAGQ = 1L, subset, weights, na.action, offset,
        contrasts = NULL, mustart, etastart,
        devFunOnly = FALSE, cov.prior = wishart,
@@ -29,7 +28,7 @@ bglmer(formula, data, family = gaussian,
     \code{invgamma}, or \code{NULL}. Imposes a prior over the covariance of the random
     effects/modeled coefficients. Default is \code{wishart}. The \code{NULL} argument
     imposes flat priors over all relevant parameters.}
-  \item{fixef.prior}{a BLME prior of family \code{normal}, \code{t}, or \code{NULL}.
+  \item{fixef.prior}{a BLME prior of family \code{normal}, \code{t}, \code{horseshoe}, or \code{NULL}.
     Imposes a prior over the fixed effects/modeled coefficients.
     Default is \code{NULL}.}
   \item{resid.prior}{a BLME prior of family \code{gamma}, \code{invamma}, \code{point}
@@ -40,7 +39,7 @@ bglmer(formula, data, family = gaussian,
     \code{\link[lme4]{glmer}} a numeric vector or named list. Unlike the aforementioned,
     list members of \code{fixef} and \code{sigma} are applicable to linear mixed models
     provided that numeric optimization is required for these parameters.}
-  \item{formula, data, REML, family, control, verbose, maxit, nAGQ,
+  \item{formula, data, REML, family, control, verbose, nAGQ,
     mustart, etastart, devFunOnly, \dots}{model specification arguments as in \code{\link[lme4]{lmer}} and \code{\link[lme4]{glmer}};
     see there for details.}
   \item{subset, weights, na.action, offset, contrasts}{further model
@@ -101,8 +100,8 @@ bglmer(formula, data, family = gaussian,
 \itemize{\item \code{fixef.prior = multivariate.distribution(options1 = value1, \dots)}}
   
   At present, the implemented multivariate distributions are \code{normal}, \code{t},
-  and \code{NULL}. \code{t} priors cannot be used when \code{REML} is \code{TRUE},
-  as that integral does not have a closed form solution.
+  \code{horseshoe}, and \code{NULL}. \code{t} and \code{horseshoe} priors cannot be used
+  when \code{REML} is \code{TRUE}, as that integral does not have a closed form solution.
 
   \strong{Residual Variance Prior}
 
@@ -120,25 +119,34 @@ bglmer(formula, data, family = gaussian,
   \code{\linkS4class{merMod}} class, and \code{\link[stats]{lm}}.
 }
 \examples{
-##  covariance prior
 data("sleepstudy", package = "lme4")
+
+### Examples using a covariance prior ##
+
+# Here we are ignoring convergence warnings just to illustate how the package
+# is used: this is not a good idea in practice..
+control <- lmerControl(check.conv.grad = "ignore")
 (fm1 <- blmer(Reaction ~ Days + (0 + Days|Subject), sleepstudy,
+              control = control,
               cov.prior = gamma))
 (fm2 <- blmer(Reaction ~ Days + (0 + Days|Subject), sleepstudy,
+              control = control,
               cov.prior = gamma(shape = 2, rate = 0.5, posterior.scale = 'sd')))
 (fm3 <- blmer(Reaction ~ Days + (1 + Days|Subject), sleepstudy,
+              control = control,
               cov.prior = wishart))
 (fm4 <- blmer(Reaction ~ Days + (1 + Days|Subject), sleepstudy,
+              control = control,
               cov.prior = invwishart(df = 5, scale = diag(0.5, 2))))
 
-##  custom prior
+# Custom prior
 penaltyFn <- function(sigma)
   dcauchy(sigma, 0, 10, log = TRUE)
 (fm5 <- blmer(Reaction ~ Days + (0 + Days|Subject), sleepstudy,
               cov.prior = custom(penaltyFn, chol = TRUE, scale = "log")))
 
 
-##  fixed effect prior
+### Examples using a fixed effect prior ###
 (fm6 <- blmer(Reaction ~ Days + (1 + Days|Subject), sleepstudy,
               cov.prior = NULL,
               fixef.prior = normal))
@@ -146,15 +154,20 @@ penaltyFn <- function(sigma)
               cov.prior = NULL,
               fixef.prior = normal(cov = diag(0.5, 2), common.scale = FALSE)))
 
-##  residual variance prior
-##  eight schools example
-y <- c(28, 8, -3, 7, -1, 1, 18, 12);
-sigma <- c(15, 10, 16, 11, 9, 11, 10, 18);
-g <- 1:8;
-  
-(schools <- blmer(y ~ 1 + (1 | g), resid.prior = point,
-                  cov.prior = NULL, REML = FALSE,
-                  weights = 1 / sigma^2));
+### Example using a residual variance prior ###
+# This is the "eight schools" data set; the mode should be at the boundary
+# of the space.
+
+control <- lmerControl(check.conv.singular = "ignore",
+                       check.nobs.vs.nRE   = "ignore",
+                       check.nobs.vs.nlev  = "ignore")
+y <- c(28, 8, -3, 7, -1, 1, 18, 12)
+sigma <- c(15, 10, 16, 11, 9, 11, 10, 18)
+g <- 1:8
+
+(schools <- blmer(y ~ 1 + (1 | g), control = control, REML = FALSE,
+                  resid.prior = point, cov.prior = NULL,
+                  weights = 1 / sigma^2))
 }
 \keyword{models}
 \keyword{methods}

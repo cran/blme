@@ -3,26 +3,31 @@ setClass("bmerNormalDist",
          contains = "bmerDist")
 
 toString.bmerNormalDist <- function(x, digits = getOption("digits"), ...) {
-  cov <- solve(tcrossprod(x@R.cov.inv))
-  sds <- sqrt(diag(cov))
-  corrs <- diag(1 / sds) %*% cov %*% diag(1 / sds)
+  if (any(diag(x@R.cov.inv) == 0)) {
+    cov <- diag(1 / diag(x@R.cov.inv)^2)
+    sds <- sqrt(diag(cov))
+    corrs <- matrix(0, nrow(cov), ncol(cov))
+  } else {
+    cov <- crossprod(solve(x@R.cov.inv))
+    sds <- sqrt(diag(cov))
+    corrs <- diag(1 / sds) %*% cov %*% diag(1 / sds)
+  }
   
   sds <- round(sds, digits)
   corrs <- round(corrs[lower.tri(corrs)], digits)
   
-  if (nrow(cov) > 2) {
-    covString <- paste("sd = c(", toString(round(sds[1:2], digits)),
-                       ", ...), corr = c(", toString(round(corrs[1], digits)), " ...)", sep = "")
-  } else if (nrow(cov) == 2) {
-    covString <- paste("sd = c(", toString(round(sds[1:2], digits)),
-                       "), corr = ", toString(round(corrs[1], digits)), sep = "")
+  if (nrow(cov) > 2L) {
+    covString <- paste0("sd = c(", paste0(round(sds[1L:2L], digits), collapse = ", "),
+                        ", ...), corr = c(", round(corrs[1L], digits), " ...)")
+  } else if (nrow(cov) == 2L) {
+    covString <- paste0("sd = c(", paste0(round(sds[1L:2L], digits), collapse = ", "),
+                        "), corr = ", round(corrs[1L], digits))
   } else {
-    covString <- paste("sd = ", toString(round(sds[1], digits)), sep = "")
+    covString <- paste0("sd = ", round(sds[1L], digits))
   }
   
-  paste("normal(", covString,
-        ", common.scale = ", x@commonScale,
-        ")", sep="")
+  paste0("normal(", covString, ", ",
+         "common.scale = ", x@commonScale, ")")
 }
 
 setMethod("getDFAdjustment", "bmerNormalDist",
