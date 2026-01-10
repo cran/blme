@@ -1,6 +1,6 @@
 Package: blme
-Version: 1.0-6
-Date: 2024-09-06
+Version: 1.0-7
+Date: 2026-01-05
 Title: Bayesian Linear Mixed-Effects Models
 Authors@R: c(
   person("Vincent", "Dorie", role = c("aut", "cre"), email = "vdorie@gmail.com", comment = c(ORCID = "0000-0002-9576-3064")),
@@ -16,16 +16,17 @@ License: GPL (>= 2)
 URL: https://github.com/vdorie/blme
 BugReports: https://github.com/vdorie/blme/issues
 NeedsCompilation: no
-Packaged: 2024-09-07 03:08:42 UTC; vdorie
-Author: Vincent Dorie [aut, cre] (<https://orcid.org/0000-0002-9576-3064>),
-  Douglas Bates [ctb] (lme4 non-modular functions,
+Packaged: 2026-01-05 23:54:23 UTC; vdorie
+Author: Vincent Dorie [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-9576-3064>),
+  Douglas Bates [ctb] (lme4 non-modular functions, ORCID:
     <https://orcid.org/0000-0001-8316-9503>),
-  Martin Maechler [ctb] (lme4 non-modular functions,
+  Martin Maechler [ctb] (lme4 non-modular functions, ORCID:
     <https://orcid.org/0000-0002-8685-9910>),
-  Ben Bolker [ctb] (lme4 non-modular functions,
+  Ben Bolker [ctb] (lme4 non-modular functions, ORCID:
     <https://orcid.org/0000-0002-2127-0443>),
-  Steven Walker [ctb] (lme4 non-modular functions,
+  Steven Walker [ctb] (lme4 non-modular functions, ORCID:
     <https://orcid.org/0000-0002-4394-9078>)
 Maintainer: Vincent Dorie <vdorie@gmail.com>
 Repository: CRAN
-Date/Publication: 2024-09-07 13:20:02 UTC
+Date/Publication: 2026-01-10 07:51:49 UTC
